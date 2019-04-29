@@ -30,6 +30,7 @@ var common = require('./common');
 /**
  * Get a function that deserializes a specific type of protobuf.
  * @param {function()} cls The constructor of the message type to deserialize
+ * @param {bool=} defaults Set default values on output objects. Defaults to true.
  * @param {bool=} binaryAsBase64 Deserialize bytes fields as base64 strings
  *     instead of Buffers. Defaults to false
  * @param {bool=} longsAsStrings Deserialize long values as strings instead of
@@ -38,7 +39,8 @@ var common = require('./common');
  */
 exports.deserializeCls = function deserializeCls(cls, options) {
   var conversion_options = {
-    defaults: true,
+    defaults: options.hasOwnProperty('defaults') 
+      ? options.defaults : true,
     bytes: options.binaryAsBase64 ? String : Buffer,
     longs: options.longsAsStrings ? String : null,
     enums: options.enumsAsStrings ? String : null,
